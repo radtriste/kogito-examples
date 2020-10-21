@@ -7,7 +7,7 @@
 
   <groupId>org.kie.kogito</groupId>
   <artifactId>kogito-examples</artifactId>
-  <version>802.0.0</version>
+  <version>802.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Kogito Example</name>
