@@ -13,8 +13,8 @@ if [ -z $author ]; then
   author='kiegroup'
 fi
 
-echo '----- Cloning main dsl pipelines repo'
-git clone --single-branch --branch $branch https://github.com/${author}/kogito-pipelines.git $TEMP_DIR
+echo "----- Cloning pipelines repo from ${author} on branch ${branch}"
+git clone --single-branch --branch ${branch} https://github.com/${author}/kogito-pipelines.git $TEMP_DIR
 
 echo '----- Launching seed tests'
 ${TEMP_DIR}/dsl/seed/scripts/seed_test.sh ${TEMP_DIR}

@@ -145,7 +145,7 @@ String getParamOrDeployProperty(String paramKey, String deployPropertyKey){
 //////////////////////////////////////////////////////////////////////////////
 
 boolean isRelease() {
-    return params.RELEASE || (getDeployProperty('release') == 'true')
+    return env.RELEASE.toBoolean()
 }
 
 String getProjectVersion() {
@@ -165,7 +165,7 @@ String getGitTag() {
 }
 
 String getGitBranch() {
-    return env.GIT_BRANCH_NAME
+    return params.BUILD_BRANCH_NAME
 }
 
 String getGitAuthor() {
