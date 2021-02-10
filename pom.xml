@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kie.kogito</groupId>
     <artifactId>kogito-build-parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>3422.5.0</version>
   </parent>
 
   <groupId>org.kie.kogito</groupId>
@@ -46,7 +46,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- kogito -->
     <kogito.version>${project.version}</kogito.version>
-    <version.org.optaplanner>8.3.0-SNAPSHOT</version.org.optaplanner>
+    <version.org.optaplanner>3429.5.0</version.org.optaplanner>
     <!-- license plugin -->
     <version.license.plugin>4.0.rc2</version.license.plugin>
     <skipLicensesCheck>false</skipLicensesCheck>
