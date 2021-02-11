@@ -4,7 +4,7 @@
   <parent>
     <artifactId>kogito-quickstarts</artifactId>
     <groupId>org.kie.kogito</groupId>
-    <version>3422.5.0</version>
+    <version>3422.5.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>02-kogito-auth-example</artifactId>
