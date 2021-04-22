@@ -7,13 +7,14 @@ changeBranch = env.ghprbSourceBranch ?: CHANGE_BRANCH
 changeTarget = env.ghprbTargetBranch ?: CHANGE_TARGET
 
 pipeline {
-    agent {
-        label 'kie-rhel7 && kie-mem16g'
-    }
-    tools {
-        maven 'kie-maven-3.6.2'
-        jdk 'kie-jdk11'
-    }
+    agent any
+    // agent {
+    //     label 'kie-rhel7 && kie-mem16g'
+    // }
+    // tools {
+    //     maven 'kie-maven-3.6.2'
+    //     jdk 'kie-jdk11'
+    // }
     options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '')
         timeout(time: 600, unit: 'MINUTES')
@@ -31,94 +32,94 @@ pipeline {
                 checkoutRepo('kogito-examples', 'kogito-examples-events')
             }
         }
-        stage('Build quarkus') {
-            when {
-                expression { return getQuarkusBranch() }
-            }
-            steps {
-                script {
-                    checkoutQuarkusRepo()
-                    getMavenCommand('quarkus', false)
-                        .withProperty('quickly')
-                        .run('clean install')
-                }
-            }
-        }
-        stage('Build Runtimes') {
-            steps {
-                script {
-                    getMavenCommand('kogito-runtimes')
-                        .skipTests(true)
-                        .withProperty('skipITs', true)
-                        .run('clean install')
-                }
-            }
-        }
-        stage('Build Optaplanner') {
-            steps {
-                script {
-                    // Skip unnecessary plugins to save time.
-                    getMavenCommand('optaplanner')
-                        .withProperty('quickly')
-                        .run('clean install')
-                }
-            }
-        }
-        stage('Build kogito-examples') {
-            steps {
-                script {
-                    getMavenCommand('kogito-examples', true, true)
-                        .withProperty('validate-formatting')
-                        .run('clean install')
-                }
-            }
-            post {
-                cleanup {
-                    script {
-                        cleanContainers()
-                    }
-                }
-            }
-        }
-        stage('Build kogito-examples with persistence') {
-            steps {
-                script {
-                    getMavenCommand('kogito-examples-persistence', true, true)
-                        .withProfiles(['persistence'])
-                        .run('clean verify')
-                }
-            }
-            post {
-                cleanup {
-                    script {
-                        cleanContainers()
-                    }
-                }
-            }
-        }
-        stage('Build kogito-examples with events') {
-            steps {
-                script {
-                    getMavenCommand('kogito-examples-events', true, true)
-                        .withProfiles(['events'])
-                        .run('clean verify')
-                }
-            }
-            post {
-                cleanup {
-                    script {
-                        cleanContainers()
-                    }
-                }
-            }
-        }
+        // stage('Build quarkus') {
+        //     when {
+        //         expression { return getQuarkusBranch() }
+        //     }
+        //     steps {
+        //         script {
+        //             checkoutQuarkusRepo()
+        //             getMavenCommand('quarkus', false)
+        //                 .withProperty('quickly')
+        //                 .run('clean install')
+        //         }
+        //     }
+        // }
+        // stage('Build Runtimes') {
+        //     steps {
+        //         script {
+        //             getMavenCommand('kogito-runtimes')
+        //                 .skipTests(true)
+        //                 .withProperty('skipITs', true)
+        //                 .run('clean install')
+        //         }
+        //     }
+        // }
+        // stage('Build Optaplanner') {
+        //     steps {
+        //         script {
+        //             // Skip unnecessary plugins to save time.
+        //             getMavenCommand('optaplanner')
+        //                 .withProperty('quickly')
+        //                 .run('clean install')
+        //         }
+        //     }
+        // }
+        // stage('Build kogito-examples') {
+        //     steps {
+        //         script {
+        //             getMavenCommand('kogito-examples', true, true)
+        //                 .withProperty('validate-formatting')
+        //                 .run('clean install')
+        //         }
+        //     }
+        //     post {
+        //         cleanup {
+        //             script {
+        //                 cleanContainers()
+        //             }
+        //         }
+        //     }
+        // }
+        // stage('Build kogito-examples with persistence') {
+        //     steps {
+        //         script {
+        //             getMavenCommand('kogito-examples-persistence', true, true)
+        //                 .withProfiles(['persistence'])
+        //                 .run('clean verify')
+        //         }
+        //     }
+        //     post {
+        //         cleanup {
+        //             script {
+        //                 cleanContainers()
+        //             }
+        //         }
+        //     }
+        // }
+        // stage('Build kogito-examples with events') {
+        //     steps {
+        //         script {
+        //             getMavenCommand('kogito-examples-events', true, true)
+        //                 .withProfiles(['events'])
+        //                 .run('clean verify')
+        //         }
+        //     }
+        //     post {
+        //         cleanup {
+        //             script {
+        //                 cleanContainers()
+        //             }
+        //         }
+        //     }
+        // }
     }
     post {
-        always {
-            script {
-                junit '**/target/surefire-reports/**/*.xml'
-            }
-        }
+        // always {
+        //     script {
+        //         junit '**/target/surefire-reports/**/*.xml'
+        //     }
+        // }
         failure {
             script {
                 mailer.sendEmail_failedPR()
